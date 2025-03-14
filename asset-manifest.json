@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.ad58f0c0.css",
-    "main.js": "/static/js/main.7be62a78.js",
-    "index.html": "/index.html",
-    "main.ad58f0c0.css.map": "/static/css/main.ad58f0c0.css.map",
-    "main.7be62a78.js.map": "/static/js/main.7be62a78.js.map"
+    "main.css": "/bankdicegame/static/css/main.ad58f0c0.css",
+    "main.js": "/bankdicegame/static/js/main.7be62a78.js",
+    "index.html": "/bankdicegame/index.html",
+    "main.ad58f0c0.css.map": "/bankdicegame/static/css/main.ad58f0c0.css.map",
+    "main.7be62a78.js.map": "/bankdicegame/static/js/main.7be62a78.js.map"
   },
   "entrypoints": [
     "static/css/main.ad58f0c0.css",
