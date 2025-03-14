@@ -1,4 +1,4 @@
-# bankdicegame.github.io
+# bankdicegame
 Custom Bank! Dice Game Web Application
 
 ## Getting Started with Create React App
