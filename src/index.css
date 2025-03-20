@@ -1,17 +1,42 @@
-/* index.css */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-  }
-  
-  #root {
-    text-align: center;
-    margin-top: 50px;
-  }  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
 
-  .App {
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }  
+#root {
+  text-align: center;
+  margin-top: 50px;
+}  
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.scoreboard {
+  margin-bottom: 20px;
+}
+
+.dice-container {
+  margin: 20px 0;
+}
+
+.dice {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+.restart button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
+  

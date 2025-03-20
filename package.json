@@ -2,7 +2,7 @@
   "name": "bankdicegame",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ronnigschwind.github.io",
+  "homepage": "https://ronnigschwind.github.io/bankdicegame",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
