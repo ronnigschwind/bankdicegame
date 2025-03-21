@@ -1,42 +1,109 @@
-body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
 }
 
-#root {
+body {
+  background: linear-gradient(135deg, #30b3ff, #40ff53);
+  color: black;
   text-align: center;
-  margin-top: 50px;
-}  
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .App {
-  text-align: center;
-  font-family: Arial, sans-serif;
+  width: 95%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  margin: auto;
 }
 
-.scoreboard {
-  margin-bottom: 20px;
-}
-
-.dice-container {
-  margin: 20px 0;
-}
-
-.dice {
-  font-size: 2em;
+h1, h2, h3 {
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.controls button {
+button {
+  background: #40ff53;
+  color: #333;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
   margin: 5px;
-  padding: 10px 20px;
-  font-size: 1em;
 }
 
-.restart button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1.2em;
+button:hover {
+  background: #30b3ff;
 }
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid black;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: black;
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Input Glow Effect */
+input:focus {
+  box-shadow: 0 0 10px rgba(48, 179, 255, 0.8);
+  outline: none;
+}
+
+/* Dice Roll Buttons */
+.custom-dice-buttons {
+  /* display: grid;
+  grid-template-columns: repeat(4, 1fr); */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dice-roll-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.dice-roll-container button {
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+button:disabled {
+  background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3)) !important;
+  color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3)) !important;
+  border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3)) !important;
+  cursor: default !important;
+}
+
+@media (max-width: 768px) {
+  .App {
+    width: 90%;
+  }
+}
+
   

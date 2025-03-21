@@ -50,12 +50,6 @@ function App() {
         return;
       }
     }
-    // while (bankedPlayers.has(players[nextPlayerIndex])) {
-    //   nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
-    //   if (nextPlayerIndex === currentPlayerIndex) {
-    //     return;
-    //   }
-    // }
 
     setCurrentPlayerIndex(nextPlayerIndex); // Switch to the next player
   };
@@ -222,25 +216,27 @@ function App() {
 
           <div>
             <h3>Custom Dice Roll</h3>
-            {[...Array(11).keys()].map((num) => (
-              <button 
-                key={num + 2} 
-                onClick={() => rollDice(num + 2)} 
-                style={{
-                  backgroundColor: rollCount >= 3 && num + 2 === 7 ? 'red' : 'white', 
-                  border: '1px solid black', 
-                  // cursor: 'pointer'
-                  cursor: rollCount >= 3 && (num + 2 === 2 || num + 2 === 12) ? 'default' : 'pointer', // Change cursor to default for 2 and 12 after first roll
-                }}
-                disabled={rollCount >= 3 && (num + 2 === 2 || num + 2 === 12)} // Disable 2 and 12 after 3rd roll - these would both be doubles
-              >
-                {num + 2}
-              </button>
-            ))}
-            {/* Only show the "Doubles" button after 3 rolls */}
-            {rollCount >= 3 && (
-              <button onClick={() => rollDice(roundScore)} style={{backgroundColor: 'white', border: '1px solid black', cursor: 'pointer'}}>DOUBLES!</button>
-            )}
+            <div className="custom-dice-buttons">
+              {[...Array(11).keys()].map((num) => (
+                <button 
+                  key={num + 2} 
+                  onClick={() => rollDice(num + 2)} 
+                  style={{
+                    backgroundColor: rollCount >= 3 && num + 2 === 7 ? 'red' : 'white', 
+                    border: '1px solid black', 
+                    // cursor: 'pointer'
+                    cursor: rollCount >= 3 && (num + 2 === 2 || num + 2 === 12) ? 'default' : 'pointer', // Change cursor to default for 2 and 12 after first roll
+                  }}
+                  disabled={rollCount >= 3 && (num + 2 === 2 || num + 2 === 12)} // Disable 2 and 12 after 3rd roll - these would both be doubles
+                >
+                  {num + 2}
+                </button>
+              ))}
+              {/* Only show the "Doubles" button after 3 rolls */}
+              {rollCount >= 3 && (
+                <button onClick={() => rollDice(roundScore)} style={{backgroundColor: 'white', border: '1px solid black', cursor: 'pointer'}}>DOUBLES!</button>
+              )}
+            </div>
           </div>
 
           <button onClick={bankPoints} disabled={roundScore === 0 || isRoundOver()}>
