@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./index.css"; // Use index.css
+import "./index.css";
 
 function App() {
   const [players, setPlayers] = useState([]);
@@ -9,11 +9,11 @@ function App() {
   const [roundScore, setRoundScore] = useState(0);
   const [totalScores, setTotalScores] = useState([]);
   const [rollCount, setRollCount] = useState(0);
-  // const [bankedPlayers, setBankedPlayers] = useState(new Set()); // Keep track of players who banked
-  const [bankedPlayers, setBankedPlayers] = useState([]); // Change from Set to Array
-  const [roundEnded, setRoundEnded] = useState(false); // Track if round has ended
+  const [bankedPlayers, setBankedPlayers] = useState([]); 
+  const [roundEnded, setRoundEnded] = useState(false);
   const [roundCount, setRoundCount] = useState(1);
   const [numberOfRounds, setNumberOfRounds] = useState(0);
+  const [useCustomDice, setUseCustomDice] = useState(false);
 
   // Function to save player names to localStorage
   // const savePlayerNames = (playerNames) => {
@@ -27,7 +27,6 @@ function App() {
     setPlayers([...players, newPlayerName]);
     setTotalScores([...totalScores, 0]);
     setNewPlayerName("");
-    // savePlayerNames(players);
   };
 
   // Start the game
@@ -57,7 +56,8 @@ function App() {
   // Roll the dice (either digital or manual input)
   const rollDice = (customSum = null) => {
     let rollSum;
-    if (customSum !== null) {
+    
+    if (useCustomDice && customSum !== null) {
       rollSum = customSum;
     } else {
       const die1 = Math.floor(Math.random() * 6) + 1;
@@ -87,26 +87,21 @@ function App() {
     setRoundScore((prevRoundScore) => prevRoundScore + rollSum);
   };
 
-  // Bank the current round score and add to total score
-  const bankPoints = () => {
+  const bankPoints = (playerIndex) => {
+    if (bankedPlayers.includes(players[playerIndex])) return; // Prevent duplicate banking
+  
     const updatedScores = [...totalScores];
-    updatedScores[currentPlayerIndex] += roundScore; // Add round score to total score
+    updatedScores[playerIndex] += roundScore; // Add round score to total score
     setTotalScores(updatedScores);
-
-    // setBankedPlayers((prev) => new Set(prev).add(players[currentPlayerIndex])); // Mark this player as banked
-    // setBankedPlayers((prev) => [...prev, players[currentPlayerIndex]]); // Store player in array
-    // switchTurn(); // Switch turns immediately after banking
+  
     // Add player to banked list
-    const newBankedPlayers = [...bankedPlayers, players[currentPlayerIndex]];
-    setBankedPlayers(newBankedPlayers);
-
+    setBankedPlayers([...bankedPlayers, players[playerIndex]]);
+  
     // If all players have banked, end the round
-    if (newBankedPlayers.length === players.length) {
+    if (bankedPlayers.length + 1 === players.length) {
       setRoundEnded(true);
-    } else {
-      switchTurn(); // Otherwise, switch turns
     }
-  };
+  };  
 
   // Restart the game
   const restartGame = () => {
@@ -128,7 +123,6 @@ function App() {
   };
 
   const isGameOver = () => {
-    // return roundCount >= numberOfRounds;
     return roundCount >= numberOfRounds && isRoundOver();
   };
 
@@ -137,8 +131,6 @@ function App() {
   };
 
   const startNextRound = () => {
-    // setRollCount(roundCount + 1);
-    // setCurrentPlayerIndex(0); // Start with the first player again
     setRollCount(0);
     setRoundScore(0);
     setBankedPlayers([]);
@@ -155,6 +147,18 @@ function App() {
 
           <h3>Number of Rounds</h3>
           <input type="text" value={numberOfRounds} onChange={(e) => setNumberOfRounds(e.target.value)} placeholder="Enter number of rounds"/>
+
+          <h3>Choose Dice Type:</h3>
+          <div className="dice-type">
+            <div className="custom-radio">
+              <input type="radio" id="virtual" name="diceType" value="virtual" checked={!useCustomDice} onChange={() => setUseCustomDice(false)} />
+              <label htmlFor="virtual">Virtual Dice (Random Roll)</label>
+            </div>
+            <div className="custom-radio">
+              <input type="radio" id="custom" name="diceType" value="custom" checked={useCustomDice} onChange={() => setUseCustomDice(true)} />
+              <label htmlFor="custom">Custom Dice (Manual Input)</label>
+            </div>
+          </div>
 
           <h3>Add Players</h3>
           <input type="text" value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)} placeholder="Enter player name"/>
@@ -192,11 +196,6 @@ function App() {
             <p key={index}>{player}: {totalScores[index]} points</p>
           ))}
           
-          {/* {roundCount < numberOfRounds ? (
-            <button onClick={startNextRound}>Start Next Round</button>
-          ) : (
-            <button onClick={() => setGameOver(true)}>See Final Scores</button>
-          )} */}
           {roundCount < numberOfRounds ? (
             <button onClick={startNextRound}>Start Next Round</button>
           ) : (
@@ -212,38 +211,43 @@ function App() {
           <h3>Roll Count: {rollCount}</h3>
           <h3>Round Score: {roundScore}</h3>
 
-          <button onClick={() => rollDice()}>Roll Dice</button>
-
-          <div>
-            <h3>Custom Dice Roll</h3>
-            <div className="custom-dice-buttons">
-              {[...Array(11).keys()].map((num) => (
-                <button 
-                  key={num + 2} 
-                  onClick={() => rollDice(num + 2)} 
-                  style={{
-                    backgroundColor: rollCount >= 3 && num + 2 === 7 ? 'red' : 'white', 
-                    border: '1px solid black', 
-                    // cursor: 'pointer'
-                    cursor: rollCount >= 3 && (num + 2 === 2 || num + 2 === 12) ? 'default' : 'pointer', // Change cursor to default for 2 and 12 after first roll
-                  }}
-                  disabled={rollCount >= 3 && (num + 2 === 2 || num + 2 === 12)} // Disable 2 and 12 after 3rd roll - these would both be doubles
-                >
-                  {num + 2}
-                </button>
-              ))}
-              {/* Only show the "Doubles" button after 3 rolls */}
-              {rollCount >= 3 && (
-                <button onClick={() => rollDice(roundScore)} style={{backgroundColor: 'white', border: '1px solid black', cursor: 'pointer'}}>DOUBLES!</button>
-              )}
+          {!useCustomDice ? (
+            <button onClick={() => rollDice()}>Roll Virtual Dice</button>
+          ) : (
+            <div>
+              <h3>Custom Dice Roll</h3>
+              <div className="custom-dice-buttons">
+                {[...Array(11).keys()].map((num) => (
+                  <button 
+                    key={num + 2} 
+                    onClick={() => rollDice(num + 2)} 
+                    style={{
+                      backgroundColor: rollCount >= 3 && num + 2 === 7 ? 'red' : 'white', 
+                      border: '1px solid black', 
+                      cursor: rollCount >= 3 && (num + 2 === 2 || num + 2 === 12) ? 'default' : 'pointer',
+                    }}
+                    disabled={rollCount >= 3 && (num + 2 === 2 || num + 2 === 12)}
+                  >
+                    {num + 2}
+                  </button>
+                ))}
+                {rollCount >= 3 && (
+                  <button onClick={() => rollDice(roundScore)} style={{backgroundColor: 'white', border: '1px solid black', cursor: 'pointer'}}>DOUBLES!</button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
-          <button onClick={bankPoints} disabled={roundScore === 0 || isRoundOver()}>
-            Bank Points
-          </button>
-
-          {/* {isRoundOver() && <h3>The round is over!</h3>} */}
+          <h3>Bank Your Score</h3>
+          {players.map((player, index) => (
+            <button
+              key={index}
+              onClick={() => bankPoints(index)}
+              disabled={bankedPlayers.includes(player) || rollCount < 3}
+            >
+              {player} - Bank Score
+            </button>
+          ))}
 
           <button onClick={restartGame}>Restart Game</button>
 
